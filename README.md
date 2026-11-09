@@ -10,7 +10,7 @@ A VT / Hokie themed download manager simulator that showcases the implementation
 ## Reflection
 
 ### What changed from the spec?
-*   **Classes & Signatures:** We largely stuck to the spec. For `UrlParser.parseFileName`, we ensured it explicitly catches `URISyntaxException` and throws `IllegalArgumentException` as planned, but we refined the substring index logic to ensure trailing slashes are dropped cleanly.
+*   **Classes & Signatures:** We largely stuck to the spec. For `UrlParser.parseFileName`, we ensured it explicitly catches `URISyntaxException` and throws `IllegalArgumentException` as planned, but we refined the substring index logic to ensure trailing slashes are dropped cleanly. Also used `trim()` and schemes for `http ` and `https` to make sure the inputs are valid URLs that the program can read. I made this change because program would have accepted bad inputs like "     http://example.com/files/report.pdf     " and "hello" as valid URLs.
 *   **Validation:** Validation remains exactly where we specified: `UrlParser` handles bad links, `DownloadManager` handles duplicates, and `DownloadController` handles menu inputs. 
 *   **Tests:** [Allycia: Briefly mention if you had to change any of your JUnit test assertions from the original plan]
 
@@ -33,7 +33,7 @@ The complete MVP path end-to-end. While the Model logic and View UI work in isol
 
 ### Our Change Feature (Deliverable 4)
 **Feature:** Priority Downloads. Users will be able to designate a URL as "urgent," allowing it to bypass the standard queue and start downloading immediately after the current file finishes.
-*   **Classes it WILL touch:** `DownloadController` (to parse the new menu option), `ConsoleView` (to display the new option), and `DownloadManager` (to handle the routing of priority items).
+*   **Classes it WILL touch:** `DownloadController` (to parse the new menu option), `ConsoleView.showMessage()` (to display the new option), and `DownloadManager.addDownload(priority integer, URL)` (to handle the routing of priority items). 
 *   **Classes it SHOULD NOT touch:** `UrlParser`, `DownloadItem`, `ConsoleView`'s `readLine()` method, and the core `LinkedQueue` (we will likely add a separate queue structure for priority items to keep the original FIFO queue intact).
 
 ### Stretch Goals
