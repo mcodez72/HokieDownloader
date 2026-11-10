@@ -5,41 +5,56 @@ import java.net.URISyntaxException;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
- * 
- *  @author Mikey
- *  @version Nov 9, 2026
+ * MODEL. Turns a pasted URL into a clean file name or rejects it, thus it never
+ * prints and only throws an exception with a message for the controller to
+ * show.
+ *
+ * @author Mikey
+ * @version Nov 9, 2026
  */
-public class UrlParser {
-    
-    public static String parseFileName(String url) {
-        
-        if (url == null || url.trim().isEmpty()) 
+public class UrlParser
+{
+
+    /**
+     * Gets the file name at the end of a URL.
+     *
+     * @param url
+     *            the URL the user pasted
+     * @return the file name
+     * @throws IllegalArgumentException
+     *             if the URL is empty, too long, not http or https, or has no
+     *             file name
+     */
+    public static String parseFileName(String url)
+    {
+
+        if (url == null || url.trim().isEmpty())
         {
             throw new IllegalArgumentException("URL cannot be empty");
         }
-        
+
         url = url.trim();
-        
+
         if (url.length() > 2048)
         {
             throw new IllegalArgumentException("URL is too long");
         }
-        
-        try 
+
+        try
         {
             URI uri = new URI(url);
 
             String scheme = uri.getScheme();
-            if (scheme == null || (!scheme.equalsIgnoreCase("http") && !scheme.equalsIgnoreCase("https"))) {
+            if (scheme == null || (!scheme.equalsIgnoreCase("http")
+                && !scheme.equalsIgnoreCase("https")))
+            {
                 throw new IllegalArgumentException("Not a valid URL");
             }
 
             String path = uri.getPath();
 
-            if (path == null || path.isEmpty()) {
+            if (path == null || path.isEmpty())
+            {
                 throw new IllegalArgumentException("No file name found in URL");
             }
 
@@ -48,12 +63,12 @@ public class UrlParser {
             {
                 throw new IllegalArgumentException("No file name found in URL");
             }
-            
+
             return filename;
 
-        } 
-        
-        catch (URISyntaxException e) 
+        }
+
+        catch (URISyntaxException e)
         {
             throw new IllegalArgumentException("Not a valid URL");
         }
