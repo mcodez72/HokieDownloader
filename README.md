@@ -10,7 +10,7 @@ A VT / Hokie themed download manager simulator that showcases the implementation
 ## Reflection
 
 ### What changed from the spec?
-*   **Classes & Signatures:** We largely stuck to the spec. For `UrlParser.parseFileName`, we ensured it explicitly catches `URISyntaxException` and throws `IllegalArgumentException` as planned, but we refined the substring index logic to ensure trailing slashes are dropped cleanly. Also used `trim()` and schemes for `http ` and `https` to make sure the inputs are valid URLs that the program can read. I made this change because program would have accepted bad inputs like "     http://example.com/files/report.pdf     " and "hello" as valid URLs.
+*   **Classes & Signatures:** We largely stuck to the spec. For `UrlParser.parseFileName`, we ensured it explicitly catches `URISyntaxException` and throws `IllegalArgumentException` as planned, but we refined the substring index logic to ensure trailing slashes are dropped cleanly. Also used `trim()` and schemes for `http ` and `https` to make sure the inputs are valid URLs that the program can read. I made this change because the program would have accepted bad inputs like "     http://example.com/files/report.pdf     " and "hello" as valid URLs.
 *   **Validation:** Validation remains exactly where we specified: `UrlParser` handles bad links, `DownloadManager` handles duplicates, and `DownloadController` handles menu inputs. 
 *   **Tests:** [Allycia: Briefly mention if you had to change any of your JUnit test assertions from the original plan]
 
@@ -60,9 +60,9 @@ The complete MVP path end-to-end. While the Model logic and View UI work in isol
 | `LinkedQueue.java` | Allycia | [Allycia: Fill in contribution] |
 | `DownloadManager.java` | Allycia | [Allycia: Fill in contribution] |
 | `DownloadItem.java` | Allycia | [Allycia: Fill in contribution] |
-| Model JUnit Tests | Allycia | [Allycia: Fill in contribution] |
+| Model JUnit Tests | Shafiur | Completed the test classes for the project. GenAI-Assisted. |
 | `DownloadController.java`| Shafiur | Wrote the menu loop, the menu input checks, and the handlers that connect the view to the model. |
-| `Main.java` | Shafiur | Wrote main, which creates the model, view and controller and starts the program but this was intergrated into DownloadController. |
+| `Main.java` | Shafiur | Wrote main, which creates the model, view, and controller and starts the program, but this was integrated into DownloadController. |
 
 **GenAI Note:** 
 Mikey used GenAI as a sounding board to debug the `String.substring` index math when extracting filenames from the `URI.getPath()` method, and to verify the `ConsoleView` met the "thin view" decoupling requirements of the spec. GenAI was also used to help format this README.md template based on our Deliverable 1 & 2 planning documents.
