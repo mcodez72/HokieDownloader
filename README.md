@@ -5,15 +5,14 @@ A VT / Hokie themed download manager simulator that showcases the implementation
 
 ## How to Run
 *   **To run the Thin View:** Execute the throwaway `main` method located in `ConsoleView.java`. It will display the MVP menu, wait for input, and print fake data to prove the UI runs independently of the backend.
-*   **To run the Model:** [Allycia: Add 1 sentence here on how to run your JUnit tests or throwaway driver for the Queue/DownloadManager]
+*   **To run the Model:** Run LinkedQueueTest, DownloadItemTest, and DownloadManagerTest as JUnit tests; they use the model classes directly with no view, and DownloadManagerTest calls tick() to skip the real 60-second wait.
 
 ## Reflection
 
 ### What changed from the spec?
 *   **Classes & Signatures:** We largely stuck to the spec. For `UrlParser.parseFileName`, we ensured it explicitly catches `URISyntaxException` and throws `IllegalArgumentException` as planned, but we refined the substring index logic to ensure trailing slashes are dropped cleanly. Also used `trim()` and schemes for `http ` and `https` to make sure the inputs are valid URLs that the program can read. I made this change because the program would have accepted bad inputs like "     http://example.com/files/report.pdf     " and "hello" as valid URLs.
 *   **Validation:** Validation remains exactly where we specified: `UrlParser` handles bad links, `DownloadManager` handles duplicates, and `DownloadController` handles menu inputs. 
-*   **Tests:** [Allycia: Briefly mention if you had to change any of your JUnit test assertions from the original plan]
-
+*   **Tests:** We stuck with our original JUnit test assertions from our original plan.
 ### Did the model really stand alone?
 Yes. The model and view were built in parallel using stubs. The model is completely decoupled and runs its own JUnit tests without any awareness of the UI. To make the view run for this prototype, we temporarily added a throwaway `main` method to `ConsoleView` that feeds it hard-coded strings, proving the model doesn't need to push data for the view to compile and run.
 
@@ -57,9 +56,9 @@ The complete MVP path end-to-end. While the Model logic and View UI work in isol
 | `UrlParser.java` | Mikey | Wrote logic, validated URI substring index math, GenAI-assisted. |
 | `ConsoleView.java` | Mikey | Wrote class, stubbed UI, implemented throwaway driver, GenAI-assisted. |
 | `UrlParserTest.java` | Mikey | [Mikey/Allycia: Add who wrote tests for the parser] |
-| `LinkedQueue.java` | Allycia | [Allycia: Fill in contribution] |
-| `DownloadManager.java` | Allycia | [Allycia: Fill in contribution] |
-| `DownloadItem.java` | Allycia | [Allycia: Fill in contribution] |
+| `LinkedQueue.java` | Allycia | Wrote our own linked queue with head and tail pointers. |
+| `DownloadManager.java` | Allycia | Wrote the model class that holds the queue and completed list, adds downloads, and counts down the front file. |
+| `DownloadItem.java` | Allycia | Wrote the class for one download with its URL, file name, 60-second timer, and status.|
 | Model JUnit Tests | Shafiur | Completed the test classes for the project. GenAI-Assisted. |
 | `DownloadController.java`| Shafiur | Wrote the menu loop, the menu input checks, and the handlers that connect the view to the model. |
 | `Main.java` | Shafiur | Wrote main, which creates the model, view, and controller and starts the program, but this was integrated into DownloadController. |
