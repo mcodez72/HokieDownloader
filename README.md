@@ -55,7 +55,7 @@ The complete MVP path end-to-end. While the Model logic and View UI work in isol
 | :--- | :--- | :--- |
 | `UrlParser.java` | Mikey | Wrote logic, validated URI substring index math, GenAI-assisted. |
 | `ConsoleView.java` | Mikey | Wrote class, stubbed UI, implemented throwaway driver, GenAI-assisted. |
-| `UrlParserTest.java` | Mikey | [Mikey/Allycia: Add who wrote tests for the parser] |
+| `UrlParserTest.java` | Mikey | Wrote JUnit tests for UrlParser covering normal URLs, empty, null, and too-long input, missing file names, and invalid URLs. |
 | `LinkedQueue.java` | Allycia | Wrote our own linked queue with head and tail pointers. |
 | `DownloadManager.java` | Allycia | Wrote the model class that holds the queue and completed list, adds downloads, and counts down the front file. |
 | `DownloadItem.java` | Allycia | Wrote the class for one download with its URL, file name, 60-second timer, and status.|
