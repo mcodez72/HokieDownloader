@@ -61,8 +61,8 @@ The complete MVP path end-to-end. While the Model logic and View UI work in isol
 | `DownloadManager.java` | Allycia | [Allycia: Fill in contribution] |
 | `DownloadItem.java` | Allycia | [Allycia: Fill in contribution] |
 | Model JUnit Tests | Allycia | [Allycia: Fill in contribution] |
-| `DownloadController.java`| Shafiur | [Shafiur: Fill in contribution] |
-| `Main.java` | Shafiur | [Shafiur: Fill in contribution] |
+| `DownloadController.java`| Shafiur | Wrote the menu loop, the menu input checks, and the handlers that connect the view to the model. |
+| `Main.java` | Shafiur | Wrote main, which creates the model, view and controller and starts the program but this was intergrated into DownloadController. |
 
 **GenAI Note:** 
 Mikey used GenAI as a sounding board to debug the `String.substring` index math when extracting filenames from the `URI.getPath()` method, and to verify the `ConsoleView` met the "thin view" decoupling requirements of the spec. GenAI was also used to help format this README.md template based on our Deliverable 1 & 2 planning documents.
