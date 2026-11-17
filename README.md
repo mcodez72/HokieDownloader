@@ -9,26 +9,36 @@ A VT / Hokie themed download manager simulator that showcases the implementation
 
 ## Reflection
 
-### What changed from the spec?
-*   **Classes & Signatures:** We largely stuck to the spec. For `UrlParser.parseFileName`, we ensured it explicitly catches `URISyntaxException` and throws `IllegalArgumentException` as planned, but we refined the substring index logic to ensure trailing slashes are dropped cleanly. Also used `trim()` and schemes for `http ` and `https` to make sure the inputs are valid URLs that the program can read. I made this change because the program would have accepted bad inputs like "     http://example.com/files/report.pdf     " and "hello" as valid URLs.
-*   **Validation:** Validation remains exactly where we specified: `UrlParser` handles bad links, `DownloadManager` handles duplicates, and `DownloadController` handles menu inputs. 
-*   **Tests:** We stuck with our original JUnit test assertions from our original plan.
-### Did the model really stand alone?
-Yes. The model and view were built in parallel using stubs. The model is completely decoupled and runs its own JUnit tests without any awareness of the UI. To make the view run for this prototype, we temporarily added a throwaway `main` method to `ConsoleView` that feeds it hard-coded strings, proving the model doesn't need to push data for the view to compile and run.
+### How did your design absorb the change?
+*   **Classes Touched:** Our priority feature touched `ConsoleView` (to display the new menu option)[cite: 43, 55], `DownloadController` (to add the `handleAddPriorityDownload` routing)[cite: 44, 56], and `DownloadManager` (to implement the separate `priorityQueue` and update `tick()`, `getQueued()`, and `getCurrent()`)[cite: 59]. 
+*   **Comparison to D3 Prediction:** This matched our D3 prediction perfectly. We successfully avoided modifying `UrlParser`, `DownloadItem`, `ConsoleView`'s `readLine()`, and our core `LinkedQueue`[cite: 51, 53, 57]. We were pleasantly surprised by how easily `DownloadManager` absorbed the dual-queue logic without needing completely new data structures.
 
-### What happened to the unknowns?
-*   **Figured out:** We figured out how to safely parse filenames and drop fragments/queries using `java.net.URI` in the `UrlParser`. We also figured out how to simulate a 1-minute timer without freezing the app by using a manual `tick(int seconds)` method rather than background threads.
-*   **Still open:** We still need to figure out exactly how to integrate priority downloads (our Deliverable 4 change feature) without breaking our underlying FIFO architecture. 
+### Did the change cross the model/view line?
+No, the change did not cross the model/view line. The View did not have to learn anything new about the Model. Because we updated `DownloadManager.getQueued()` to merge the `priorityQueue` and standard `queue` behind the scenes[cite: 59], the `ConsoleView` was able to display urgent files jumping the line using its exact same existing display logic[cite: 55].
+
+### What changed from your D3 plan?
+Our plan remained almost entirely intact. The only minor deviation was how we implemented the priority routing in the model. Instead of passing a priority integer dynamically to a single `addDownload` method as originally planned, we overloaded the method (`addDownload(int level, String url)`) and utilized constants (`NORMAL` and `URGENT`) to make the controller's implementation cleaner[cite: 56, 59].
+
+### What doesn't work yet?
+We have fully implemented the MVP and the Priority feature, but we still need to polish the console output slightly to ensure the live countdown doesn't leave visual artifacts in certain edge cases (like transitioning from a very long filename to a short one). 
+
+### Design Improvement for Future Features
+**To make adding the next feature cheaper**, we should extract the controller's menu routing into a Command pattern or map structure. This design change would allow us to add new menu options (like pausing/canceling a download) without having to manually modify the `if/else` block inside `DownloadController.handleMenuChoice()` every time.
+
+---
 
 ### What doesn't work yet?
 The complete MVP path end-to-end. While the Model logic and View UI work in isolation, the `DownloadController` integration (Checkpoint 1) is not fully wired yet. Bad menu inputs won't actively re-prompt the user until the controller's main loop is finished.
 
+---
+
 ## Next Steps
 
-### What is left to finish the MVP?
-1.  **Integration:** Connect `DownloadController` to `ConsoleView` and `DownloadManager`.
-2.  **Controller Loop:** Implement the `run()` loop in the controller to keep the menu active.
-3.  **End-to-End Testing:** Run the 5-step checklist to ensure data flows correctly across the model/view boundary.
+### What is left for the final build?
+1.  **Final Polish:** Clean up any remaining console formatting artifacts when the live countdown ticks down.
+2.  **Robustness Check:** Do a final sweep of adversarial inputs (like massive strings or weird symbols) to guarantee the `UrlParser` catches absolutely everything.
+3.  **Demo Prep:** Script and rehearse the final presentation.
+
 
 ### Our Change Feature (Deliverable 4)
 **Feature:** Priority Downloads. Users will be able to designate a URL as "urgent," allowing it to bypass the standard queue and start downloading immediately after the current file finishes.
@@ -36,18 +46,28 @@ The complete MVP path end-to-end. While the Model logic and View UI work in isol
 *   **Classes it SHOULD NOT touch:** `UrlParser`, `DownloadItem`, `ConsoleView`'s `readLine()` method, and the core `LinkedQueue` (we will likely add a separate queue structure for priority items to keep the original FIFO queue intact).
 
 ### Stretch Goals
-*   **Committing to:** Priority downloads.
-*   **Dropping:** We are dropping the GUI implementation and actual Java networking protocols to ensure we have enough time to perfectly implement and test the Priority Queue logic.
+*   **Committed:** Priority downloads (successfully implemented).
+*   **Dropped:** GUI implementation and actual Java networking protocols (dropped to focus on ensuring our MVC decoupling and Priority logic were perfect).
+
 
 ### New Tests Needed
 *   Tests for the new Controller menu input (Option 4).
 *   Tests in `DownloadManager` to verify priority files correctly jump ahead of standard queued files.
 *   Tests to ensure bad inputs on the priority prompt are handled gracefully.
 
+### What will your 3-minute demo show?
+**Our demo path is timed to fit 3 minutes.** We will walk through:
+1.  Adding a normal download to the queue.
+2.  Adding an URGENT priority download.
+3.  Displaying the queue to watch the live countdown, demonstrating the urgent file correctly bypassing the normal queue to start immediately after the active file finishes.
+4.  Entering bad inputs (like an empty URL or invalid menu option) to show the program surviving without crashing.
+
+
 ### Owner for Each Remaining Item
-*   **Mikey:** Update `ConsoleView` to display priority options; refine UI strings.
-*   **Allycia:** Implement the Priority Queue logic in the model; write JUnit tests for the new routing.
-*   **Shafiur:** Finish `DownloadController` integration; add routing logic for the new priority menu choice.
+*   **Mikey:** Final UI string polish and ensuring console countdown formatting works cleanly.
+*   **Allycia:** Final sweep of JUnit test coverage and edge-case execution.
+*   **Shafiur:** Leading the live demo presentation and walking through the user path.
+
 
 ## Attribution
 
