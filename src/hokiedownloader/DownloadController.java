@@ -95,7 +95,6 @@ public class DownloadController
         } 
         else if (input.equals("4")) 
         { 
-            
             return false;
         } 
         else 
@@ -162,6 +161,58 @@ public class DownloadController
     
     public void handleAddPriorityDownload()
     {
+        view.showMessage("Paste the URGENT file URL:");
+        String url = view.readLine();
+        if (url == null)
+        {
+            return;
+        }
+        try
+        {
+            DownloadItem item = model.addDownload(DownloadManager.URGENT, url);
+            if (item == model.getCurrent())
+            {
+                view.showMessage("Added " + item.getFileName() + " to the queue.");
+            }
+            else
+            {
+                view.showMessage(
+                    "Added " + item.getFileName()
+                    + " as urgent. It starts after the current file.");
+            }
+        }
+        catch (IllegalArgumentException e)
+        {
+            view.showMessage("Error: " + e.getMessage());
+        }  
+    }
+
+    private void addFromPrompt(int level, String prompt)
+    {
+        view.showMessage(prompt);
+        String url = view.readLine();
+        if (url == null)
+        {
+            return;
+        }
         
+        try
+        {
+            DownloadItem item = model.addDownload(level, url);
+            if (level == DownloadManager.URGENT && item != model.getCurrent())
+            {
+                view.showMessage(
+                    "Added " + item.getFileName()
+                    + " as urgent. It starts after the current file.");
+            }
+            else
+            {
+                view.showMessage("Added " + item.getFileName() + " to the queue.");
+            }
+        }
+        catch (IllegalArgumentException e)
+        {
+            view.showMessage("Error: " + e.getMessage());
+        }
     }
 }
