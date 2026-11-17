@@ -76,23 +76,31 @@ public class DownloadController
             return false;
         }
         input = input.trim();
-        if (input.equals("1"))
+        System.out.println("You entered: " + input);
+        if (input.equals("1")) 
         {
+            
             handleAddDownload();
             return true;
-        }
-        else if (input.equals("2"))
+        } 
+        else if (input.equals("2")) 
         {
             handleShowQueue();
             return true;
-        }
-        else if (input.equals("3"))
+        } 
+        else if (input.equals("3")) 
         {
+            handleAddPriorityDownload(); 
+            return true;
+        } 
+        else if (input.equals("4")) 
+        { 
+            
             return false;
-        }
-        else
+        } 
+        else 
         {
-            view.showMessage("Error: Please enter 1, 2, or 3.");
+            view.showMessage("Error: Please enter 1, 2, 3, or 4."); // <-- Updated the error message
             return true;
         }
     }
@@ -150,5 +158,10 @@ public class DownloadController
         }
         view.showQueue(null, model.getQueued(), model.getCompleted());
         view.showMessage("All files downloaded");
+    }
+    
+    public void handleAddPriorityDownload()
+    {
+        
     }
 }
