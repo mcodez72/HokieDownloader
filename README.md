@@ -65,4 +65,4 @@ We have fully implemented the MVP and the Priority feature, but we still need to
 | `Main.java` | Shafiur | Wrote main, which creates the model, view, and controller and starts the program (integrated directly into DownloadController). |
 
 **GenAI Note:** 
-Mikey used GenAI as a sounding board to debug the `String.substring` index math when extracting filenames from the `URI.getPath()` method, to verify the `ConsoleView` met the "thin view" decoupling requirements of the spec, and to troubleshoot the Carriage Return (`\r`) logic for the single-line live countdown updates. GenAI was also used to help format this README.md template based on our Deliverable 1 & 2 planning documents and the Deliverable 4 rubric.
+Mikey used GenAI as a sounding board to debug the `String.substring` index math when extracting filenames from the `URI.getPath()` method, to verify the `ConsoleView` met the "thin view" decoupling requirements of the spec and write template readme
